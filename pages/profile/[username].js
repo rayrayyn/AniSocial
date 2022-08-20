@@ -64,7 +64,13 @@ export default function Profile({ error, id, username }) {
     <div className="my-4">
       <div className="bg-white p-4 border-2 rounded-md text-center shadow-md w-64 m-auto">
         <p>{username}&apos;s Profile Page</p>
-        <p>{posts.length > 0 ? `${posts.length} Posts` : `No Posts`}</p>
+        <p>
+          {posts.length > 0
+            ? posts.length === 1
+              ? `1 Post`
+              : `${posts.length} Posts`
+            : `No Posts`}
+        </p>
       </div>
 
       {posts.length > 0 &&

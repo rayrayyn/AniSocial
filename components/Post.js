@@ -43,7 +43,7 @@ export default function Post({ post, showUsername = true, single }) {
     let { data, error } = await supabase.from("comments").upsert(newComment);
 
     if (error) {
-      toast.error(error.message);
+      return toast.error(error.message);
     }
 
     setText("");
@@ -62,7 +62,7 @@ export default function Post({ post, showUsername = true, single }) {
   return (
     <div
       className={`rounded-md mx-auto ${
-        single ? "max-w-7xl" : "max-w-sm"
+        single ? "max-w-screen-sm" : "max-w-sm"
       } p-2 mt-4 border-2 bg-white`}
     >
       {showUsername && (
