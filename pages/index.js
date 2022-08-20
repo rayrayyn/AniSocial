@@ -20,7 +20,6 @@ export default function Home() {
     try {
       setLoading(true);
 
-      // TODO: Add pagination
       let { data, error, status } = await supabase
         .from("posts")
         .select(
