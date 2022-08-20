@@ -8,7 +8,7 @@ import { supabase } from "../utils/supabaseClient";
 import { useUserContext } from "../contexts/state";
 import { ROUTES } from "../constants/routes";
 
-export default function Post({ post, showUsername = true }) {
+export default function Post({ post, showUsername = true, single }) {
   const { id, user, image, comments = [] } = post;
   const { session } = useUserContext();
 
@@ -22,6 +22,10 @@ export default function Post({ post, showUsername = true }) {
   }
 
   async function addComment(e) {
+    if (text === "") {
+      return;
+    }
+
     if (!session) {
       return;
     }
@@ -56,19 +60,27 @@ export default function Post({ post, showUsername = true }) {
   }
 
   return (
-    <div className="rounded-md mx-auto max-w-sm p-2 mt-4 border-2 bg-white">
+    <div
+      className={`rounded-md mx-auto ${
+        single ? "max-w-7xl" : "max-w-sm"
+      } p-2 mt-4 border-2 bg-white`}
+    >
       {showUsername && (
         <div className="flex justify-between h-6">
           <Link href={`${ROUTES.profile}/${user.username}`}>
-            <a className="font-medium ml-1">{user.username}</a>
+            <a className="font-medium ml-1 hover:underline">{user.username}</a>
           </Link>
         </div>
       )}
-      <img
-        className="rounded-md w-full h-full my-2 border-2 "
-        src={getImage(image)}
-        alt="Image"
-      />
+
+      <Link href={`${ROUTES.post}/${id}`}>
+        <img
+          className="rounded-md w-full h-full my-2 border-2 cursor-pointer"
+          src={getImage(image)}
+          alt="Image"
+        />
+      </Link>
+
       <div className="ml-1">
         {postComments.length != 0 && !clicked && (
           <div className="cursor-pointer" onClick={() => setClicked(true)}>
@@ -79,10 +91,14 @@ export default function Post({ post, showUsername = true }) {
           <div>
             {postComments.map((comment, index) => (
               <p key={index}>
-                {comment.user.username}: {comment.text}
+                <span className="font-medium">{comment.user.username} </span>
+                {comment.text}
               </p>
             ))}
-            <div className="cursor-pointer" onClick={() => setClicked(false)}>
+            <div
+              className="cursor-pointer text-neutral-400"
+              onClick={() => setClicked(false)}
+            >
               Hide
             </div>
           </div>
@@ -90,14 +106,16 @@ export default function Post({ post, showUsername = true }) {
       </div>
       <form onSubmit={addComment} className="flex h-8 mt-2">
         <input
-          className="w-full rounded-md border-2 mr-2 p-2"
+          className="w-full rounded-md border-2 p-2"
           type="text"
           placeholder={session ? `Add a comment` : "Sign In To Comment"}
           value={text}
           onChange={(e) => setText(e.target.value)}
           disabled={!session}
         />
-        <ChatIcon className="cursor-pointer" onClick={addComment} />
+        {session && (
+          <ChatIcon className={"ml-2 cursor-pointer"} onClick={addComment} />
+        )}
       </form>
     </div>
   );

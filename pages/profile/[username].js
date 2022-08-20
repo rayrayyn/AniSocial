@@ -43,7 +43,13 @@ export default function Profile({ error, id, username }) {
   }
 
   if (error) {
-    return <div className="my-4">{error}</div>;
+    return (
+      <div className="my-4">
+        <div className="bg-white p-4 border-2 rounded-md text-center shadow-md w-64 m-auto">
+          {error}
+        </div>
+      </div>
+    );
   }
 
   if (loading) {

@@ -53,7 +53,7 @@ export default function Upload({ posts, setPosts }) {
         ...posts,
       ]);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.message || error);
     } finally {
       setUploading(false);
     }
