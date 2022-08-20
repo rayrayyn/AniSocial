@@ -4,4 +4,6 @@ export const ROUTES = {
   post: "/post",
   signIn: "/signin",
   signUp: "/signup",
+  forgotPassword: "/forgot-password",
+  updatePassword: "/update-password",
 };

@@ -42,7 +42,7 @@ export default function SignUp() {
       </Link>
 
       <form onSubmit={(e) => handleSignIn(e)}>
-        <div className="mx-2 my-2">
+        <div className="m-2">
           <label htmlFor="email" className="block">
             Email
           </label>
@@ -56,7 +56,7 @@ export default function SignUp() {
           />
         </div>
 
-        <div className="mx-2 my-2">
+        <div className="m-2">
           <label htmlFor="password" className="block">
             Password
           </label>
@@ -70,6 +70,12 @@ export default function SignUp() {
             className="border-2 border-gray-200 rounded hover:bg-gray-50 w-full p-1"
           />
         </div>
+
+        <Link href={`${ROUTES.forgotPassword}`}>
+          <p className="mx-2 text-blue-500 hover:underline cursor-pointer">
+            Forgot Password
+          </p>
+        </Link>
 
         <div className="mx-2 mt-5 flex items-center justify-center">
           <button

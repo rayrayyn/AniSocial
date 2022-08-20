@@ -8,9 +8,7 @@ import { supabase } from "../utils/supabaseClient";
 import { ROUTES } from "../constants/routes";
 
 export default function SignUp() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const { session } = useUserContext();
 
@@ -18,31 +16,24 @@ export default function SignUp() {
     if (session) Router.push("/");
   }, [session]);
 
-  const handleSignUp = async (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
 
-      const { error: signUpError } = await supabase.auth.signUp(
+      const { data, error } = await supabase.auth.api.resetPasswordForEmail(
+        email,
         {
-          email,
-          password,
-        },
-        {
-          data: {
-            username: username,
-          },
+          redirectTo: `${window.location.origin}${ROUTES.updatePassword}`,
         }
       );
 
-      if (signUpError) {
-        if (signUpError.message.includes("profiles_username")) {
-          throw "Username already taken!";
-        }
-
-        throw signUpError.message;
+      if (error) {
+        throw error.message;
       }
 
-      toast.success("Check your email for a confirmation link.");
+      if (data) {
+        toast.success("Check your email for a password change request.");
+      }
     } catch (error) {
       toast.error(error);
     }
@@ -50,7 +41,7 @@ export default function SignUp() {
 
   return (
     <div className="bg-white shadow-lg border-gray-300 border-2 rounded py-5 px-5 mt-20 max-w-md w-full mx-4">
-      <h4 className="text-center text-xl font-bold">Sign Up</h4>
+      <h4 className="text-center text-xl font-bold">Forgot Password</h4>
 
       <Link href={`${ROUTES.signIn}`}>
         <p className="text-center text-blue-500 hover:underline cursor-pointer">
@@ -58,19 +49,7 @@ export default function SignUp() {
         </p>
       </Link>
 
-      <form onSubmit={(e) => handleSignUp(e)}>
-        <div className="mx-2 my-2">
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            label="Username"
-            type="text"
-            defaultValue={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="border-2 border-gray-200 rounded hover:bg-gray-50 w-full p-1"
-          />
-        </div>
-
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div className="m-2">
           <label htmlFor="email">Email</label>
           <input
@@ -83,25 +62,12 @@ export default function SignUp() {
           />
         </div>
 
-        <div className="m-2">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            label="Password"
-            type="password"
-            defaultValue={password}
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-2 border-gray-200 rounded hover:bg-gray-50 w-full p-1"
-          />
-        </div>
-
         <div className="mx-2 mt-5 flex items-center justify-center">
           <button
             type="submit"
             className="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1"
           >
-            Register
+            Request Password Change
           </button>
         </div>
       </form>
