@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-  /* background-image: url("/background.png"); */
-  /* background-repeat: repeat; */
+  background-image: url("/crossing.jpg");
+  background-repeat: repeat;
 }

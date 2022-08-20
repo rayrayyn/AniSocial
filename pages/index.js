@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Post from "../components/Post";
+import Spinner from "../components/Spinner";
 import Upload from "../components/Upload";
 import { useUserContext } from "../contexts/state";
 import { supabase } from "../utils/supabaseClient";
@@ -48,13 +49,15 @@ export default function Home() {
 
   return (
     <div className="my-4">
-      {session && <Upload posts={posts} setPosts={setPosts} />}
       {loading ? (
-        <div>Loading</div>
+        <Spinner />
       ) : (
-        posts.map((post) => {
-          return <Post key={post.id} post={post} />;
-        })
+        <>
+          {session && <Upload posts={posts} setPosts={setPosts} />}
+          {posts.map((post) => {
+            return <Post key={post.id} post={post} />;
+          })}
+        </>
       )}
     </div>
   );

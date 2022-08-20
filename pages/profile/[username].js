@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Post from "../../components/Post";
+import Spinner from "../../components/Spinner";
 import { supabase } from "../../utils/supabaseClient";
 
 export default function Profile({ error, id, username }) {
@@ -42,20 +43,28 @@ export default function Profile({ error, id, username }) {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="my-4">{error}</div>;
+  }
+
+  if (loading) {
+    return (
+      <div className="my-4">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <div className="my-4">
-      {loading ? (
-        <div>Loading</div>
-      ) : posts.length > 0 ? (
+      <div className="bg-white p-4 border-2 rounded-md text-center shadow-md w-64 m-auto">
+        <p>{username}&apos;s Profile Page</p>
+        <p>{posts.length > 0 ? `${posts.length} Posts` : `No Posts`}</p>
+      </div>
+
+      {posts.length > 0 &&
         posts.map((post) => {
           return <Post key={post.id} post={post} showUsername={false} />;
-        })
-      ) : (
-        `${username} has no posts.` // TODO: Change styling
-      )}
+        })}
     </div>
   );
 }

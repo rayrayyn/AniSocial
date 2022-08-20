@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { PhotographIcon } from "@heroicons/react/outline";
 import { useUserContext } from "../contexts/state";
 import { supabase } from "../utils/supabaseClient";
 
@@ -59,9 +60,17 @@ export default function Upload({ posts, setPosts }) {
   }
 
   return (
-    <div className="w-96 border-2 flex justify-center flex-col">
+    <div className="cursor-pointer bg-white w-96 border-2 flex justify-center flex-col">
       <div className="m-2">
-        <label htmlFor="single">{uploading ? "Uploading ..." : "Upload"}</label>
+        <label
+          htmlFor="single"
+          className="cursor-pointer flex h-8 items-center justify-center"
+        >
+          <PhotographIcon className="h-full mr-2" />
+          <p className="font-medium">
+            {uploading ? "Uploading ..." : "Upload"}
+          </p>
+        </label>
 
         <input
           style={{

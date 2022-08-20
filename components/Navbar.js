@@ -22,12 +22,12 @@ export default function Navbar() {
   const { session } = useUserContext();
 
   return (
-    <nav className="flex justify-between h-16 items-center p-4 border-b border-gray-200 sticky top-0 bg-white">
+    <nav className="flex justify-between h-16 items-center p-4 border-b-2 border-gray-200 sticky top-0 bg-white shadow-sm">
       <Link href={ROUTES.home}>
         <a>AniSocial</a>
       </Link>
 
-      <div className="h-full inline-block ">
+      <div className="h-full inline-block">
         <div
           className="h-full flex items-center cursor-pointer"
           onClick={() => setClicked(!clicked)}
@@ -39,7 +39,7 @@ export default function Navbar() {
         <div
           className={`${
             clicked ? "block" : "hidden"
-          } absolute mt-4 right-0 p-4 border-b border-l border-gray-200 shadow-sm rounded-bl-md`}
+          } bg-white mt-4 p-4 border border-gray-200 shadow-sm rounded-b-md`}
         >
           {session ? (
             <>

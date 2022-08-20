@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import { ChatIcon, DotsHorizontalIcon } from "@heroicons/react/solid";
+import { ChatIcon } from "@heroicons/react/solid";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
@@ -62,7 +62,6 @@ export default function Post({ post, showUsername = true }) {
           <Link href={`${ROUTES.profile}/${user.username}`}>
             <a className="font-medium ml-1">{user.username}</a>
           </Link>
-          <DotsHorizontalIcon className="cursor-pointer" />
         </div>
       )}
       <img
